@@ -1,0 +1,24 @@
+image: rvancea/maven-chrome-jdk8:latest
+
+stages:
+  - build
+  - test
+  - sonarqube
+
+build:
+  stage: build
+  script:
+    - mvn compile
+test:
+  stage: test
+  script:
+    - mvn clean test
+  dependencies:
+  - build
+
+sonarqube:
+  stage: sonarqube
+  script:
+    - mvn clean verify sonar:sonar
+  dependencies:
+    - test
